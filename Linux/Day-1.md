@@ -1,35 +1,83 @@
-## LINUX FUNDEMAMTALS SERIES
+# 🐧 Linux Fundamentals Series
 
-1: echo = "hello world"
-2: whoami = shows the user logged
+## Day 1 - Basic Linux Commands
 
-file system
-3: ls = listing
-4 : cd = change directory
-5: cat = concatenate
-6, pwd = print working directory
-find : find -name "password.txt"
-also find -name "\*.txt"
-Grep "THM" access.log : Reading Files
+### Commands Learned
 
-Waxaa jira 4 operators oo muhiim ah:
+| Command  | Description                         | Example                 |
+| -------- | ----------------------------------- | ----------------------- |
+| `echo`   | Prints text to the terminal         | `echo "Hello World"`    |
+| `whoami` | Displays the current logged-in user | `whoami`                |
+| `ls`     | Lists files and directories         | `ls -la`                |
+| `cd`     | Changes the current directory       | `cd Documents`          |
+| `pwd`    | Shows the current working directory | `pwd`                   |
+| `cat`    | Displays file contents              | `cat file.txt`          |
+| `find`   | Searches for files                  | `find -name "*.txt"`    |
+| `grep`   | Searches text inside files          | `grep "THM" access.log` |
 
-&
-&&
+---
 
-> >
+## Linux Operators
 
-Aan mid mid u fahamno.
+### 1. `&`
 
-1. Operator &
-   waa maxay ?
-   wuxuu ka dhigayaa command ka inuu backround ka shaqeyo
+Runs a command in the background.
 
-2. Operator &&
-   && wuxuu isku xiraa laba command
-   waxa jira shuruud command wuxuu shaqeynaya keliya hadii command1 guuleysto
-   3.Operator >
-   > waxa la yiraahdaa Output Rediraction
-   > output command ka halkii uu screenka ka iman laha waxa loo diraa file tusale
-3. Operator >>
-   sidoo kale waa Output redirector lakiin farqiga weyn waa lama tirtirayo wixii hore ujiray wuxuu ku Daraya dha,maadka file
+```bash
+firefox &
+```
+
+---
+
+### 2. `&&`
+
+Runs the second command only if the first succeeds.
+
+```bash
+mkdir project && cd project
+```
+
+---
+
+### 3. `>`
+
+Redirects output to a file (overwrites).
+
+```bash
+echo "Hello" > file.txt
+```
+
+---
+
+### 4. `>>`
+
+Appends output to a file.
+
+```bash
+echo "Linux" >> notes.txt
+```
+
+---
+
+## Summary
+
+Today I learned:
+
+- Basic Linux commands
+- File navigation
+- Searching files
+- Reading files
+- Linux operators
+
+---
+
+## Practice Commands
+
+```bash
+whoami
+pwd
+ls -la
+cd Desktop
+find -name "*.txt"
+grep "THM" access.log
+```
