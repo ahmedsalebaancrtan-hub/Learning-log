@@ -20,7 +20,7 @@
 ## Linux Operators
 
 ### 1. `&`
-
+ 
 Runs a command in the background.
 
 ```bash
@@ -81,3 +81,4 @@ cd Desktop
 find -name "*.txt"
 grep "THM" access.log
 ```
+we added this text using vim
