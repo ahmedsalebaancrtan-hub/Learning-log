@@ -1,21 +1,36 @@
 
-import WinterCard from "./component/WinterCard";
-import { winterNeeds } from "./data/winterNeeds";
+import { useState } from 'react';
+import {winterNeeds} from './data/winterNeeds'
+import WinterList from './component/WinterList';
 
 
 function App() {
+  const [needs, setNeeds] = useState(winterNeeds);
   return (
-    <main>
-      <div className="winter-grid">
-        {winterNeeds.map((item) => (
-          <WinterCard
-            key={item.id}
-            {...item}
-          />
-        ))}
-      </div>
-    </main>
-  );
+<main className="board">
+  <h1>Daryeel Winter Warmth</h1>
+   <p className="board-intro">
+        Tracking {needs.length} winter needs this season.
+       </p>
+        <WinterList list={needs} />
+        <footer className="board-footer">
+          <p>
+          An educational classroom prototype created in support of{" "}
+          <a
+            href="https://daryeelyouth.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Daryeel Youth
+          </a>
+          . Not an official Daryeel product — all campaign data is fictional.
+        </p>
+        </footer>
+
+
+</main>
+   
+  )
 }
 
 export default App;

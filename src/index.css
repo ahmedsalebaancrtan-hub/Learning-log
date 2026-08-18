@@ -1,111 +1,316 @@
+/* ============================================================
+   Daryeel Winter Warmth — provided stylesheet (Week One)
+   A Minnesota winter night: deep navy sky, one warm amber
+   light. Plain CSS on purpose — the flexbox, grid, and
+   gradients you learned in Weeks 1–2 — so React stays the
+   focus in class. Same class names as the lesson.
+   ============================================================ */
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --night: #0b1322;
+  /* page background */
+  --card: #141f36;
+  /* card surface */
+  --card-edge: #26375c;
+  /* card borders */
+  --ink: #f1f5fb;
+  /* headings */
+  --body: #b6c2d6;
+  /* body text */
+  --muted: #8294ad;
+  /* captions, footer */
+  --amber: #f5a524;
+  /* the "warmth" accent */
+  --amber-soft: #ffd07a;
+  --urgent: #ef4457;
+  --track: #223252;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--night);
+  /* two soft glows: warm lamplight top-right, cold moonlight left */
+  background-image:
+    radial-gradient(900px 520px at 85% -10%, rgba(245, 165, 36, 0.16), transparent 60%),
+    radial-gradient(1100px 720px at -10% 0%, rgba(56, 108, 185, 0.22), transparent 55%);
+  background-repeat: no-repeat;
+  color: var(--body);
+  line-height: 1.55;
+  min-height: 100vh;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
+/* ===== Page layout ===== */
+
+.board {
+  max-width: 1160px;
   margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  padding: 56px 22px 40px;
+}
+
+.board h1 {
+  color: var(--ink);
+  font-size: clamp(2.1rem, 4.5vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+/* a warm underline flourish beneath the title */
+.board h1::after {
+  content: "";
+  display: block;
+  width: 78px;
+  height: 5px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--amber), #ff7847);
+}
+
+.board-intro {
+  color: var(--body);
+  font-size: 1.06rem;
+  margin: 16px 0 34px;
+}
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 20px;
+}
+
+/* ===== Need cards ===== */
+
+.need-card {
+  background: linear-gradient(180deg, #17233d 0%, var(--card) 100%);
+  border: 1px solid var(--card-edge);
+  border-radius: 16px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+  gap: 13px;
+  box-shadow: 0 10px 30px rgba(3, 8, 20, 0.45);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  animation: card-in 0.5s ease backwards;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+/* gentle stagger as the board loads */
+.need-card:nth-child(2) {
+  animation-delay: 0.06s;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+.need-card:nth-child(3) {
+  animation-delay: 0.12s;
+}
+
+.need-card:nth-child(4) {
+  animation-delay: 0.18s;
+}
+
+.need-card:nth-child(5) {
+  animation-delay: 0.24s;
+}
+
+.need-card:nth-child(6) {
+  animation-delay: 0.30s;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+.need-card:hover {
+  transform: translateY(-4px);
+  border-color: #3b5588;
+  box-shadow: 0 18px 44px rgba(3, 8, 20, 0.6);
+}
+
+.need-card h2 {
+  color: var(--ink);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.need-card>p {
+  font-size: 0.95rem;
+}
+
+/* urgent needs glow red at the edges */
+.need-card--urgent {
+  border-color: rgba(239, 68, 87, 0.55);
+  box-shadow:
+    0 10px 30px rgba(3, 8, 20, 0.45),
+    0 0 0 1px rgba(239, 68, 87, 0.22),
+    0 0 34px rgba(239, 68, 87, 0.12);
+}
+
+.need-card--urgent:hover {
+  border-color: rgba(239, 68, 87, 0.85);
+  box-shadow:
+    0 18px 44px rgba(3, 8, 20, 0.6),
+    0 0 0 1px rgba(239, 68, 87, 0.35),
+    0 0 44px rgba(239, 68, 87, 0.18);
+}
+
+/* ===== Badges ===== */
+
+.badge-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #1c2b49;
+  border: 1px solid #31456d;
+  color: #b9c8e2;
+}
+
+/* the first badge is the category — it carries the warm accent */
+.badge-row .badge:first-child {
+  background: rgba(245, 165, 36, 0.14);
+  border-color: rgba(245, 165, 36, 0.40);
+  color: var(--amber-soft);
+}
+
+.badge--urgent {
+  background: linear-gradient(135deg, #f0455a, #d61f3e);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 3px 12px rgba(239, 68, 87, 0.35);
+}
+
+/* ===== Progress ===== */
+
+.progress-track {
+  height: 9px;
+  background: var(--track);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1fb45c, #43e488);
+  box-shadow: 0 0 12px rgba(67, 228, 136, 0.35);
+  transition: width 0.5s ease;
+}
+
+.progress-caption {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+/* ===== Details toggle ===== */
+
+.details-button {
+  align-self: flex-start;
+  border: 1px solid #35507f;
+  background: transparent;
+  color: #dbe6f5;
+  border-radius: 9px;
+  padding: 9px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.details-button:hover {
+  background: rgba(245, 165, 36, 0.10);
+  border-color: rgba(245, 165, 36, 0.55);
+  color: var(--amber-soft);
+}
+
+/* keyboard users always see where they are */
+.details-button:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.need-details {
+  background: #0f1830;
+  border: 1px solid var(--card-edge);
+  border-left: 3px solid var(--amber);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 0.88rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: details-in 0.22s ease;
+}
+
+@keyframes details-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-p {
-  margin: 0;
+
+.need-details strong {
+  color: var(--ink);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+/* ===== Footer note ===== */
+
+.board-footer {
+  margin-top: 48px;
+  border-top: 1px solid var(--track);
+  padding-top: 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.board-footer a {
+  color: var(--amber-soft);
+  font-weight: 600;
+}
+
+/* ===== Small screens ===== */
+
+@media (max-width: 480px) {
+  .board {
+    padding: 36px 16px 32px;
+  }
+}
+
+/* respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+
+  .need-card,
+  .need-details,
+  .progress-fill,
+  .details-button {
+    animation: none;
+    transition: none;
+  }
+
+  .need-card:hover {
+    transform: none;
+  }
 }

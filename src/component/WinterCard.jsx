@@ -1,112 +1,70 @@
-import "./WinterCard.css";
+import { useState } from "react";
 
-const WinterCard = ({
-  name,
-  category,
-  sizes,
-  requestedQuantity,
-  receivedQuantity,
-  condition,
-  priority,
-  description,
-}) => {
-  const progress =
-    requestedQuantity > 0
-      ? Math.min((receivedQuantity / requestedQuantity) * 100, 100)
-      : 0;
+// props.need = {name: "magac"}
+// props = {need: {name: "magac"}}
+// Destructing 
 
-  const remaining = Math.max(
-    requestedQuantity - receivedQuantity,
-    0
+function WinterCard({ need }) {
+// This is the state (memory) of this component
+  const [showDetails, setShowDetails] = useState(false);
+
+  // This gives us the percentage of how far the progress bar went
+  const progressPct = Math.min(
+    100,
+    Math.round((need.receivedQuantity / need.requestedQuantity) * 100)
   );
+
+  // This gives us variable for urgent
+  const isUrgent = need.priority === "Urgent";
+
+
+  // This function toggles the more details, it has a onClick function just like addEventListener with click
+  function handleToggleDetails() {
+    setShowDetails(!showDetails);
+  }
 
   return (
-    <div className="winter-card">
-      {/* Header */}
-      <div className="winter-card__header">
-        <div>
-          <span className="winter-card__category">
-            {category}
-          </span>
-
-          <h3 className="winter-card__title">
-            {name}
-          </h3>
-        </div>
-
-        <span
-          className={`winter-card__priority winter-card__priority--${priority.toLowerCase()}`}
-        >
-          {priority}
+    <article className={isUrgent ? "need-card need-card--urgent" : "need-card"}>
+      <div className="badge-row">
+        <span className="badge">{need.category}</span>
+        <span className={isUrgent ? "badge badge--urgent" : "badge"}>
+          {need.priority} priority
         </span>
       </div>
-
-      {/* Description */}
-      <p className="winter-card__description">
-        {description}
+      <h2>{need.name}</h2>
+      <p>{need.description}</p>
+      <div className="progress-track">
+        <div
+          className="progress-fill"
+          style={{ width: progressPct + "%" }}
+        ></div>
+      </div>
+      <p className="progress-caption">
+        {need.receivedQuantity} of {need.requestedQuantity} received ({progressPct}%)
       </p>
-
-      {/* Information */}
-      <div className="winter-card__info">
-        <div className="winter-card__info-item">
-          <span>Condition</span>
-          <strong>{condition}</strong>
+      <button
+        type="button"
+        className="details-button"
+        onClick={handleToggleDetails}
+      >
+        {showDetails ? "Hide donation details" : "Show donation details"}
+      </button>
+      {showDetails && (
+        <div className="need-details">
+          <p>
+            <strong>Sizes needed:</strong> {need.sizes.join(", ")}
+          </p>
+          <p>
+            <strong>Condition:</strong> {need.condition}
+          </p>
+          <p>
+            <strong>Still needed:</strong>{" "}
+            {need.requestedQuantity - need.receivedQuantity} items
+          </p>
         </div>
-
-        <div className="winter-card__info-item">
-          <span>Sizes</span>
-
-          <div className="winter-card__sizes">
-            {sizes.map((size) => (
-              <span
-                key={size}
-                className="winter-card__size"
-              >
-                {size}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Progress */}
-      <div className="winter-card__quantity">
-        <div className="winter-card__quantity-header">
-          <span>Collection Progress</span>
-
-          <strong>
-            {receivedQuantity} / {requestedQuantity}
-          </strong>
-        </div>
-
-        <div className="winter-card__progress">
-          <div
-            className="winter-card__progress-bar"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-
-        <div className="winter-card__quantity-footer">
-          <span>
-            {Math.round(progress)}% collected
-          </span>
-
-          <span>
-            {remaining} remaining
-          </span>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="winter-card__footer">
-        <span>Requested</span>
-
-        <strong>
-          {requestedQuantity} items
-        </strong>
-      </div>
-    </div>
+      )}
+    </article>
   );
-};
+}
 
 export default WinterCard;
